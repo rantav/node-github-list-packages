@@ -19,7 +19,7 @@ knownPackagers =
   'meteor': /(^|\/)(\.meteor\/packages)$/
   'meteor-npm': /(^|\/)(packages\.json)$/
   'meteor-meteorite': /(^|\/)(smart\.json)$/
-  # 'python': /(^|\/)(requirements\.txt)$/
+  'python': /(^|\/)(requirements\.txt)$/
   # 'ruby': /(^|\/)(Gemfile)$/
   # 'java': /(^|\/)(pom\.xml)$/
 
@@ -114,6 +114,13 @@ meteorPackager =
     if fileContent
       return fileContent.split('\n').filter((line) -> line.indexOf('#') != 0 and line.trim().length > 0)
 
+pythonPackager =
+  getPackages: (fileContent) ->
+    if fileContent
+      lines = fileContent.split('\n').filter((line) -> line.indexOf('#') != 0 and line.trim().length > 0)
+      lines = lines.map (l) -> l.split('==')[0]
+      return lines
+
 npmPackager =
   getPackages: (fileContent) ->
     if fileContent
@@ -135,3 +142,4 @@ packagerImplementations =
   'meteor-npm': npmPackager
   'npm': npmPackager
   'meteor-meteorite': meteoritePackager
+  'python': pythonPackager
