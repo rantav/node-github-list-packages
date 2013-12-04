@@ -31,4 +31,6 @@ $ github-list-packages https://github.com/rantav/node-github-list-packages
 * Meteor (.meteor/package)
 * Meteor Atmosphere (smart.json)
 * Meteor NPM (packages.js)
-* More to come...
+* Python (requirements.txt)
+* Ruby (Gemfile)
+* ...and... More to come...
