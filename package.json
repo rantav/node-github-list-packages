@@ -3,7 +3,7 @@
   "name": "node-github-list-packages",
   "description": "A Node library and a commandline tool to list used packages in a github repository.",
   "version": "0.0.2",
-  "main": "./lib/main",
+  "main": "./lib/list",
   "bin": {
     "github-list-packages": "./bin/github-list-packages.js"
   },
@@ -28,5 +28,10 @@
     "prepublish":   "coffee --compile --output lib/ src/*.coffee",
     "postpublish":  "rm -rf lib"
   },
-  "keywords": ["github", "analysis", "package"]
+  "keywords": ["github", "analysis", "package"],
+  "licenses": [
+    { "type": "MIT",
+      "url":  "http://github.com/assaf/zombie/blob/master/MIT-LICENSE"
+    }
+  ]
 }

@@ -15,7 +15,7 @@ exports.getUsedPackages = (repoUrl, cb) ->
 
 knownPackagers =
   # Regexp to match package specifiers
-  'npm': /(^|\/)(package\.json)$/
+  # 'npm': /(^|\/)(package\.json)$/
   'meteor': /(^|\/)(\.meteor\/packages)$/
   'meteor-npm': /(^|\/)(packages\.json)$/
   'meteor-meteorite': /(^|\/)(smart\.json)$/
