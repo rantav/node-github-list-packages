@@ -2,14 +2,14 @@ GithubApi = require('github')
 request = require('request')
 _ = require('underscore')
 
-exports.getUsedTools = (repoUrl, cb) ->
+exports.getUsedPackages = (repoUrl, cb) ->
   repoHandler = resolveRepoHandler(repoUrl)
   if repoHandler and repoHandler.type == 'github'
     getPackageFiles repoHandler.user, repoHandler.repo, (err, files) ->
       if not err
         if files
           for f in files
-            addUsedToolsInFile(f)
+            addUsedPackagesInFile(f)
       cb(err, files)
 
 
@@ -25,14 +25,13 @@ knownPackagers =
 
 githubapi = new GithubApi(
   version: "3.0.0"
-  debug: true
   protocol: "https")
 
 listFiles = (user, repo, opt_sha ,cb) ->
   sha = 'HEAD' unless opt_sha
   githubapi.gitdata.getTree {user: user, repo: repo, sha: sha, recursive: 1}, (err, res) ->
     if err
-      console.log(err)
+      console.log("Error calling getTree with #{user}/#{repo}\##{sha}: #{err}")
       cb(err)
     else
       cb(null, res.tree)
@@ -99,11 +98,11 @@ resolveRepoHandler = (repoUrl) ->
           user: match[1]
           repo: match[2]}
 
-addUsedToolsInFile = (file) ->
+addUsedPackagesInFile = (file) ->
   content = file.content
   packager = resolvePackager(file.packager)
   if packager
-    file.tools = packager.getTools(content)
+    file.packages = packager.getPackages(content)
   else
     console.error("Cannot resolve packager for file #{JSON.stringify(file)}")
 
@@ -111,18 +110,18 @@ resolvePackager = (packagerName) ->
   packagerImplementations[packagerName]
 
 meteorPackager =
-  getTools: (fileContent) ->
+  getPackages: (fileContent) ->
     if fileContent
       return fileContent.split('\n').filter((line) -> line.indexOf('#') != 0 and line.trim().length > 0)
 
 npmPackager =
-  getTools: (fileContent) ->
+  getPackages: (fileContent) ->
     if fileContent
       json = JSON.parse(fileContent)
       return _.keys(json)
 
 meteoritePackager =
-  getTools: (fileContent) ->
+  getPackages: (fileContent) ->
     if fileContent
       json = JSON.parse(fileContent)
       return _.keys(json.packages)
