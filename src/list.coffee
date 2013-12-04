@@ -20,7 +20,7 @@ knownPackagers =
   'meteor-npm': /(^|\/)(packages\.json)$/
   'meteor-meteorite': /(^|\/)(smart\.json)$/
   'python': /(^|\/)(requirements\.txt)$/
-  # 'ruby': /(^|\/)(Gemfile)$/
+  'ruby': /(^|\/)(Gemfile)$/
   # 'java': /(^|\/)(pom\.xml)$/
 
 githubapi = new GithubApi(
@@ -121,6 +121,16 @@ pythonPackager =
       lines = lines.map (l) -> l.split('==')[0]
       return lines
 
+rubyPackager =
+  getPackages: (fileContent) ->
+    if fileContent
+      lines = fileContent.split('\n').filter((line) -> line.indexOf('#') != 0 and line.trim().length > 0)
+      lines = lines.map (l) ->
+        match = l.match(/\s*gem\s+['"]([^'"]+)/)
+        if match then match[1] else null
+      lines = _.compact(lines)
+      return lines
+
 npmPackager =
   getPackages: (fileContent) ->
     if fileContent
@@ -143,3 +153,4 @@ packagerImplementations =
   'npm': npmPackager
   'meteor-meteorite': meteoritePackager
   'python': pythonPackager
+  'ruby': rubyPackager
