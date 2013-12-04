@@ -2,7 +2,7 @@
   "author": "Ran Tavory",
   "name": "node-github-list-packages",
   "description": "A Node library and a commandline tool to list used packages in a github repository.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "./lib/list",
   "bin": {
     "github-list-packages": "./bin/github-list-packages.js"

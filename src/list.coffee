@@ -15,7 +15,7 @@ exports.getUsedPackages = (repoUrl, cb) ->
 
 knownPackagers =
   # Regexp to match package specifiers
-  # 'npm': /(^|\/)(package\.json)$/
+  'npm': /(^|\/)(package\.json)$/
   'meteor': /(^|\/)(\.meteor\/packages)$/
   'meteor-npm': /(^|\/)(packages\.json)$/
   'meteor-meteorite': /(^|\/)(smart\.json)$/
@@ -118,7 +118,11 @@ npmPackager =
   getPackages: (fileContent) ->
     if fileContent
       json = JSON.parse(fileContent)
-      return _.keys(json)
+      _.keys(
+        _.reduce(
+          _.values(
+            _.pick(json, 'dependencies', 'devDependencies', 'optionalDependencies')
+          ), ((memo, obj) -> _.extend(memo, obj)), {}))
 
 meteoritePackager =
   getPackages: (fileContent) ->

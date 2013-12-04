@@ -27,8 +27,8 @@ $ github-list-packages https://github.com/rantav/node-github-list-packages
 ```
 
 # Supported Packagers
+* NPM (package.json)
 * Meteor (.meteor/package)
 * Meteor Atmosphere (smart.json)
 * Meteor NPM (packages.js)
 * More to come...
-* NPM (package.json)
