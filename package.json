@@ -31,7 +31,7 @@
   "keywords": ["github", "analysis", "package"],
   "licenses": [
     { "type": "MIT",
-      "url":  "http://github.com/assaf/zombie/blob/master/MIT-LICENSE"
+      "url":  "https://raw.github.com/rantav/node-github-list-packages/master/LICENSE"
     }
   ]
 }
